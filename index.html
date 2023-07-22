@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Consensus Academy Attendance Dashboard </title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome Cdn Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+<style>
+/*  import google fonts */
+@import url("https://fonts.googleapis.com/css2?family=Josefin-Sans:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Josefin-Sans", sans-serif;
+}
+
+body {
+  background: #4d4d4d;
+  color: #fff;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  left: 0;
+  width: 90px;
+  /* width: 280px; */
+  background: #333;
+  overflow: hidden;
+  transition: 1s;
+}
+
+nav:hover {
+  width: 280px;
+  transition: 1s;
+}
+
+.logo {
+  text-align: center;
+  display: flex;
+  margin: 10px 0 0 10px;
+  padding-bottom: 3rem;
+}
+
+.logo img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.logo span {
+  font-weight: bold;
+  padding-left: 15px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+a {
+  position: relative;
+  width: 280px;
+  font-size: 14px;
+  color: #bbb;
+  display: table;
+  padding: 10px;
+}
+
+nav .fas {
+  position: relative;
+  width: 70px;
+  height: 40px;
+  top: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.nav-item {
+  position: relative;
+  top: 12px;
+  margin-left: 15px;
+}
+
+a:hover {
+  background: #444;
+}
+
+a:hover i {
+  color: rgb(32, 170, 4);
+  transition: 0.5s;
+}
+
+.logout {
+  position: absolute;
+  bottom: 25px;
+}
+
+.container {
+  display: flex;
+}
+
+/* MAin Section */
+.main {
+  position: relative;
+  padding: 20px;
+  width: 100%;
+}
+
+.main-top {
+  display: flex;
+  width: 100%;
+  background: rgb(0, 0, 0);
+}
+
+.main-top i {
+  position: absolute;
+  right: 0;
+  margin: 10px 30px;
+  color: rgb(110, 109, 109);
+  cursor: pointer;
+}
+
+.main .users {
+  display: flex;
+  width: 100%;
+}
+
+.users .card {
+  width: 25%;
+  margin: 10px;
+  background: #5e4f55;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+
+.users .card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.users .card h4 {
+  text-transform: uppercase;
+}
+
+.users .card p {
+  font-size: 12px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.users table {
+  margin: auto;
+}
+
+.users .per span {
+  padding: 5px;
+  border-radius: 10px;
+  background: rgb(46, 48, 46);
+}
+
+.users td {
+  font-size: 14px;
+  padding-right: 15px;
+}
+
+.users .card button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 7px;
+  cursor: pointer;
+  border-radius: 10px;
+  background: #e3e3e3;
+  border: 1px solid rgb(32, 170, 4);
+}
+
+.users .card button:hover {
+  background: rgb(32, 170, 4);
+  color: #703b9c;
+  transition: 0.5s;
+}
+
+.users .card :hover {
+    transform: scale(1);
+}
+
+.users :hover {
+    transform: scale(1.1);
+}
+
+/*Attendance List section  */
+.attendance {
+  margin-top: 20px;
+  text-transform: capitalize;
+}
+
+.attendance-list {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #333;
+  border-radius: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 15px;
+  min-width: 100%;
+  overflow: hidden;
+  border-radius: 5px 5px 0 0;
+}
+
+table thead tr {
+  color: #000000;
+  background: rgb(212, 212, 212);
+  text-align: left;
+  font-weight: bold;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #555;
+}
+
+.table tbody tr:nth-of-type(odd) {
+  background: #444;
+}
+
+.table tbody tr.active {
+  font-weight: bold;
+  color: rgb(32, 170, 4);
+}
+
+.table tbody tr:last-of-type {
+  border-bottom: 2px solid rgb(32, 170, 4);
+}
+
+.table button {
+  padding: 6px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid rgb(32, 170, 4);
+}
+
+.table button:hover {
+  background: rgb(189, 5, 5);
+  color: #fff;
+  transition: 0.5rem;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#" class="logo">
+          <img src="https://w7.pngwing.com/pngs/284/174/png-transparent-consensus-inc-user-profile-business-linkedin-text-consensus-text-orange-logo.png">
+          <span class="nav-item">Admin</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-menorah"></i>
+          <span class="nav-item">Dashboard</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-comment"></i>
+          <span class="nav-item">Message</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-database"></i>
+          <span class="nav-item">Report</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-chart-bar"></i>
+          <span class="nav-item">Attendance</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-cog"></i>
+          <span class="nav-item">Setting</span>
+        </a></li>
+
+        <li><a href="#" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Log out</span>
+        </a></li>
+      </ul>
+    </nav>
+    
+    <section class="main">
+      <div class="main-top">
+        <h1><B></B>CONSENSUS ACADEMY</B></h1>
+        <i class="fas fa-user-cog"></i>
+      </div>
+      <div class="users">
+        <div class="card">
+          <img src="data:image/png;base64,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">
+          <h4>Ramya</h4>
+          <p>APP Developer</p>
+          <div class="per">
+            <table>
+              <tr>
+                <td><span>92%</span></td>
+                <td><span>95%</span></td>
+              </tr>
+              <tr>
+                <td>Month</td>
+                <td>Year</td>
+              </tr>
+            </table>
+          </div>
+          <button>Profile</button>
+        </div>
+        <div class="card">
+          <img src="https://ov12-engine.flamingtext.com/netfu/tmp28002/coollogo_com-310801458.png">
+          <h4>Ragunath</h4>
+          <p>Training</p>
+          <div class="per">
+            <table>
+              <tr>
+                <td><span>92%</span></td>
+                <td><span>94%</span></td>
+              </tr>
+              <tr>
+                <td>Month</td>
+                <td>Year</d>
+              </tr>
+            </table>
+          </div>
+          <button>Profile</button>
+        </div>
+        <div class="card">
+          <img src="https://www11.flamingtext.com/Tools/download/coollogo_com.png?url=https://ov12-engine.flamingtext.com/netfu/tmp28006/coollogo_com-311091880.png&_loc=image">
+          <h4>Sathapan</h4>
+          <p>Software Developer</p>
+          <div class="per">
+            <table>
+              <tr>
+                <td><span>90%</span></td>
+                <td><span>92%</span></td>
+              </tr>
+              <tr>
+                <td>Month</td>
+                <td>Year</td>
+              </tr>
+            </table>
+          </div>
+          <button>Profile</button>
+        </div>
+        <div class="card">
+          <img src="https://cdn.3dnames.co/previews/wt06/500x500/v/wt06vishwa3dxx.jpg">
+          <h4>Vishwa</h4>
+          <p>Senior Associate Mentor</p>
+          <div class="per">
+            <table>
+              <tr>
+                <td><span>92%</span></td>
+                <td><span>93%</span></td>
+              </tr>
+              <tr>
+                <td>Month</td>
+                <td>Year</td>
+              </tr>
+            </table>
+          </div>
+          <button>Profile</button>
+        </div>
+      </div>
+
+      <section class="attendance">
+        <div class="attendance-list">
+          <h1>Attendance List</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Date</th>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>01</td>
+                <td>Ramya</td>
+                <td>APP Developer</td>
+                <td>08-01-23</td>
+                <td>9:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>02</td>
+                <td>Ragunath</td>
+                <td>Training</td>
+                <td>08-01-23</td>
+                <td>9:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>03</td>
+                <td>Sathapan</td>
+                <td>Testing</td>
+                <td>08-01-23</td>
+                <td>9:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>04</td>
+                <td>Vishwa</td>
+                <td>Training</td>
+                <td>08-01-23</td>
+                <td>9:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr >
+                <td>05</td>
+                <td>Varsh</td>
+                <td>Mentor</td>
+                <td>08-01-23</td>
+                <td>9:00AM</td>
+                <td>4:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr >
+                <td>06</td>
+                <td>Pushpam</td>
+                <td>Testing</td>
+                <td>08-01-23</td>
+                <td>9:00AM</td>
+                <td>3:00PM</td>
+                <td><button>View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </div>
+
+</body>
+</html>
+
